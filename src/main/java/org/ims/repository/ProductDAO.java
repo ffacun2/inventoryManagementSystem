@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class ProductDAO{
 
@@ -46,4 +47,142 @@ public class ProductDAO{
         }
         return products;
     }
+
+
+    /**
+     * This method searches a product where some attribute matches the given word
+     * @return sets of products with the given word
+     */
+    public HashMap<Long,Product> searchProducts(String attribute) {
+        HashMap<Long,Product> products = null;
+        try( Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "SELECT * FROM products WHERE"+
+                    "CAST(id as String) LIKE ? OR "+
+                    "name LIKE ? OR + "+
+                    "description LIKE ? OR"+
+                    "category LIKE ?";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setString(1, "%"+attribute+"%");
+                pstm.setString(2, "%"+attribute+"%");
+                pstm.setString(3, "%"+attribute+"%");
+                pstm.setString(4, "%"+attribute+"%");
+                try(ResultSet rs = pstm.executeQuery()){
+                    products = new HashMap<>();
+                    while(rs.next()){
+                        Product product = new Product();
+                        product.setId(rs.getLong(1));
+                        product.setName(rs.getString(2));
+                        product.setQuantity(rs.getInt(3));
+                        product.setDescription(rs.getString(4));
+                        product.setCategory(rs.getString(5));
+                        products.put(rs.getLong(1),product);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.out);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace(System.out);
+        }
+        return products;
+    }
+
+    /**
+     * This method creates a new Product and add it to the list of productos in the database.
+     * @Return Boolean value indicating whether the product is already in the list of products in the database.
+     */
+    public boolean createProduct(Product product) {
+        boolean created = false;
+        try(Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "INSERT INTO products (name, price, stock, description, category) VALUES (?,?,?,?,?)";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setString(1, product.getName());
+                pstm.setDouble(2, product.getPrice());
+                pstm.setInt(3, product.getQuantity());
+                pstm.setString(4, product.getDescription());
+                pstm.setString(5, product.getCategory());
+                pstm.executeUpdate();
+                created = true;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.out);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace(System.out);
+        }
+        return created;
+    }
+
+    /**
+     * This method updates an existing Product in the database.
+     * @Return Boolean value indicating whether the product is already in the list of products in the database.
+     */
+    public boolean updateProduct(Product product) {
+        boolean updated = false;
+        try(Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "UPDATE products SET name=?, price=?, stock=?, description=?, category=? WHERE id=?";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setString(1, product.getName());
+                pstm.setDouble(2, product.getPrice());
+                pstm.setInt(3, product.getQuantity());
+                pstm.setString(4, product.getDescription());
+                pstm.setString(5, product.getCategory());
+                pstm.setLong(6, product.getId());
+                pstm.executeUpdate();
+                updated = true;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.out);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace(System.out);
+        }
+        return updated;
+    }
+
+    /**
+     * This method deletes a Product from the database.
+     * @Return Boolean value indicating whether the product is already in the list of products in the database.
+     */
+    public boolean deleteProduct(long id) {
+        boolean deleted = false;
+        try(Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "DELETE FROM products WHERE id=?";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setLong(1, id);
+                pstm.executeUpdate();
+                deleted = true;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace(System.out);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace(System.out);
+        }
+        return deleted;
+    }
+
+
+
 }

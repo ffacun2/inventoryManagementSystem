@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="710.0" minWidth="997.0" prefHeight="710.0" prefWidth="997.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ims.view.MainController">
+   <BorderPane fx:id="borderPane" maxHeight="Infinity" maxWidth="Infinity" minHeight="710.0" minWidth="997.0" prefHeight="710.0" prefWidth="997.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <top>
+         <HBox alignment="CENTER_RIGHT" maxWidth="Infinity" prefHeight="86.0" prefWidth="987.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <BorderPane.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </BorderPane.margin>
+            <padding>
+               <Insets left="20.0" right="20.0" />
+            </padding>
+            <GridPane maxWidth="Infinity" prefHeight="99.0" prefWidth="799.0" HBox.hgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" maxWidth="394.9999854221818" minWidth="10.0" prefWidth="87.27273181505456" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="715.6363280417711" minWidth="10.0" prefWidth="712.1454222800523" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <Label text="Usuario: " GridPane.columnIndex="1">
+                  <font>
+                     <Font name="System Bold" size="19.0" />
+                  </font>
+                  <GridPane.margin>
+                     <Insets />
+                  </GridPane.margin>
+               </Label>
+               <ImageView fitHeight="78.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../img/pad-icon.png" />
+               </ImageView>
+               <Label fx:id="usuarioLabel" text="Facundo Criado" GridPane.columnIndex="1">
+                  <GridPane.margin>
+                     <Insets left="75.0" />
+                  </GridPane.margin>
+                  <font>
+                     <Font size="19.0" />
+                  </font>
+               </Label>
+            </GridPane>
+            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" text="Cerrar Sesion">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/logout-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </top>
+      <left>
+         <VBox maxHeight="Infinity" maxWidth="200.0" minHeight="200.0" minWidth="156.0" prefHeight="594.0" prefWidth="156.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" />
+            </BorderPane.margin>
+            <GridPane gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="156.0" VBox.vgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="75.27268737288546" minHeight="10.0" prefHeight="46.47269957991671" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="86.6182073924167" minHeight="10.0" prefHeight="86.6182073924167" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <Button mnemonicParsing="false" text="Inicio">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#showProduct" text="Productos" GridPane.rowIndex="1">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false"  text="Ventas" GridPane.rowIndex="3">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Inventario" GridPane.rowIndex="2">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Proveedores" GridPane.rowIndex="4">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="5">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="6">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Usuarios" onAction="#showUsers" GridPane.rowIndex="7">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+               <Button mnemonicParsing="false" text="Configuracion" GridPane.rowIndex="8">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+            </GridPane>
+         </VBox>
+      </left>
+     
+   </BorderPane>
+</AnchorPane>

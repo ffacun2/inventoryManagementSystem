@@ -1,4 +1,4 @@
-module org.ims.inventorymanagementsystem {
+module org.ims {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
@@ -7,6 +7,6 @@ module org.ims.inventorymanagementsystem {
 
     opens org.ims to javafx.fxml;
     exports org.ims;
-    exports org.ims.view;
     opens org.ims.view to javafx.fxml;
+    exports org.ims.view;
 }
