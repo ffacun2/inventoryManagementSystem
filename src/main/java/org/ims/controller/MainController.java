@@ -1,4 +1,4 @@
-package org.ims.view;
+package org.ims.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0"
-          xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ims.view.ProductPanelController">
+          xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ims.controller.ProductPanelController">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -34,7 +34,7 @@
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
             </rowConstraints>
-            <TableView prefHeight="444.0" prefWidth="408.0" GridPane.vgrow="ALWAYS">
+            <TableView prefHeight="444.0" prefWidth="408.0"  GridPane.vgrow="ALWAYS">
                 <columns>
                     <TableColumn prefWidth="75.0" text="C1" />
                     <TableColumn prefWidth="75.0" text="C2" />
