@@ -16,11 +16,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage)
     throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view/Main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("System");
-        stage.setMinWidth(1100);
-        stage.setMinHeight(750);
+        stage.setTitle("Inventory System");
         stage.setScene(scene);
         stage.show();
     }

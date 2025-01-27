@@ -46,7 +46,7 @@
                <ImageView fitHeight="78.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
                   <Image url="@../img/man-line-icon.png" />
                </ImageView>
-               <Label fx:id="usuarioLabel" text="Facundo Criado" GridPane.columnIndex="1">
+               <Label fx:id="userLabel" text="Facundo Criado" GridPane.columnIndex="1">
                   <GridPane.margin>
                      <Insets left="75.0" />
                   </GridPane.margin>
@@ -55,7 +55,7 @@
                   </font>
                </Label>
             </GridPane>
-            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" text="Cerrar Sesion">
+            <Button onAction="#closeMainWindows" mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" text="Cerrar Sesion">
                <font>
                   <Font size="17.0" />
                </font>

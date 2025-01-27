@@ -62,6 +62,11 @@ public class UserService {
         return userDAO.getAllUsers();
     }
 
+    public User getUserByUsername(String username)
+    throws SQLException {
+        return userDAO.getUserByUsername(username);
+    }
+
     /**
      * Calls the method to create a new previously verified user
      * @param user with parameters validated
