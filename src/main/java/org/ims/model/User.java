@@ -6,26 +6,26 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String Role;
+    private String role;
     private String name;
     private String lastname;
-    private int DNI;
+    private String dni;
 
 
     public User(){}
 
-    public User(String username, String password, String email, String role, String name, String lastname, int DNI) {
+    public User(String username, String password, String email, String role, String name, String lastname, String dni) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.Role = role;
+        this.role = role;
         this.name = name;
         this.lastname = lastname;
-        this.DNI = DNI;
+        this.dni = dni;
     }
 
-    public User(Long id,String username, String password, String email, String role, String name, String lastname, int DNI) {
-        this(username, password,email,role,name,lastname,DNI);
+    public User(Long id,String username, String password, String email, String role, String name, String lastname, String dni) {
+        this(username, password,email,role,name,lastname,dni);
         this.id = id;
     }
 
@@ -38,11 +38,11 @@ public class User {
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
-    public void setRole(String Role) {
-        this.Role = Role;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {
@@ -77,12 +77,12 @@ public class User {
         this.lastname = lastname;
     }
 
-    public int getDNI() {
-        return DNI;
+    public String getDni() {
+        return dni;
     }
 
-    public void setDNI(int DNI) {
-        this.DNI = DNI;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getName() {
@@ -96,6 +96,7 @@ public class User {
 
     @Override
     public String toString(){
-        return "User [id=" + id + ", username=" + username + ", email=" + email + ", role=" + Role + ", name=" + name + ", lastname=" + lastname + ", DNI=" + DNI + "]";
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + ", name=" + name + ", lastname=" + lastname + ", dni=" + dni + "]";
     }
+
 }
