@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.ims.exception.InvalidImputDataException;
 import org.ims.exception.UserNotFoundException;
@@ -155,15 +156,12 @@ public class UserPanelController {
             if (user != null){
                 try {
                     userService.createUser(user);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setHeaderText("User created successfully");
-                    alert.showAndWait();
+                    showAlert("User created successfully", Alert.AlertType.INFORMATION);
                     clearFields();
                     loadTable();
                 }
                 catch (SQLException e) {
-                    handleExceptionsDataBase(e);
+                    showAlert(e.getMessage(), Alert.AlertType.ERROR);
                 }
             }
         }
@@ -185,11 +183,7 @@ public class UserPanelController {
             return userService.validateUser(username, password, email, role, name, lastName, DNI);
         }
         catch(InvalidImputDataException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Data validation failed");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            showAlert(e.getMessage(), Alert.AlertType.ERROR);
             return null;
         }
     }
@@ -213,42 +207,41 @@ public class UserPanelController {
                 }
             }
             catch (SQLException e) {
-                handleExceptionsDataBase(e);
+                showAlert(e.getMessage(), Alert.AlertType.ERROR);
             }
     }
 
     @FXML
     protected void updateUser() {
-        if (!userTable.getSelectionModel().getSelectedItems().isEmpty())
-            try {
-                User user = validateAttribute(
-                        textFieldUser.getText(),
-                        passwordField.getText(),
-                        textFieldEmail.getText(),
-                        checkBoxRole.getValue(),
-                        textFieldName.getText(),
-                        textFieldLastName.getText(),
-                        textFieldDNI.getText()
-                );
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Deleting user");
-                alert.setHeaderText("Are you sure that you want to delete this user?");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    userService.updateUser(userTable.getSelectionModel().getSelectedItem().getId(), user);
-                    loadTable();
+        if (!userTable.getSelectionModel().getSelectedItems().isEmpty()) {
+            User user = validateAttribute(
+                    textFieldUser.getText(),
+                    passwordField.getText(),
+                    textFieldEmail.getText(),
+                    checkBoxRole.getValue(),
+                    textFieldName.getText(),
+                    textFieldLastName.getText(),
+                    textFieldDNI.getText()
+            );
+            if (user != null) {
+                try {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Deleting user");
+                    alert.setHeaderText("Are you sure that you want to update this user?");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        userService.updateUser(userTable.getSelectionModel().getSelectedItem().getId(), user);
+                        loadTable();
+                    }
+                }
+                catch(SQLException e) {
+                    showAlert(e.getLocalizedMessage(), Alert.AlertType.ERROR);
+                }
+                catch(UserNotFoundException e) {
+                showAlert("User not found", Alert.AlertType.ERROR);
                 }
             }
-            catch (SQLException e) {
-                handleExceptionsDataBase(e);
-            }
-            catch (UserNotFoundException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("User not found");
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
-            }
+        }
     }
 
 
@@ -296,12 +289,8 @@ public class UserPanelController {
                 }
             }
         }
-        catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error occurred while searching");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+        catch (SQLException e) {
+            showAlert("An error occurred while searching", Alert.AlertType.ERROR);
         }
         userTable.setItems(filteredData);
     }
@@ -332,7 +321,7 @@ public class UserPanelController {
     }
 
     @FXML
-    public void handleClickMouseEvent(MouseEvent mouseEvent) {
+    private void handleClickMouseEvent(MouseEvent mouseEvent) {
         User user = userTable.getSelectionModel().getSelectedItem();
         if (user!= null) {
             textFieldUser.setText(user.getUsername());
@@ -345,5 +334,28 @@ public class UserPanelController {
         }
     }
 
+    private void showAlert(String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+//        alert.setContentText(message);
+        // Crear un TextArea para el contenido expandible
+        TextArea textArea = new TextArea(message);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        // Configurar un tamaño preferido para el TextArea
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        // Agregar el TextArea al contenido expandible de la alerta
+        VBox expandableContent = new VBox();
+        expandableContent.getChildren().add(textArea);
+        alert.getDialogPane().setExpandableContent(expandableContent);
+        alert.getDialogPane().setExpanded(true);
+
+        // Mostrar la alerta
+        alert.showAndWait();
+    }
 
 }

@@ -18,6 +18,9 @@ public class MainController {
     @FXML
     private Label userLabel;
 
+    private Parent products;
+    private Parent users;
+    private Parent suppliers;
 
     private User userLogued;
 
@@ -28,18 +31,32 @@ public class MainController {
     }
 
 
+
     public void showProduct ()
     throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/ProductPanel.fxml"));
-        Parent pane = loader.load();
-        borderPane.setCenter(pane);
+        if ( products == null ) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/ProductPanel.fxml"));
+            products = loader.load();
+        }
+        borderPane.setCenter(products);
     }
 
     public void showUsers()
         throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/UserPanel.fxml"));
-        Parent pane = loader.load();
-        borderPane.setCenter(pane);
+        if ( users == null ) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/UserPanel.fxml"));
+            users = loader.load();
+        }
+        borderPane.setCenter(users);
+    }
+
+    public void showSuppliers()
+    throws IOException {
+        if (suppliers == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/SupplierPanel.fxml"));
+            suppliers = loader.load();
+        }
+        borderPane.setCenter(suppliers);
     }
 
     public void closeMainWindows() {

@@ -28,18 +28,18 @@ public class UserService {
      * @param DNI   the DNI of the person
      */
     public User validateUser(String username, String password, String email, String role, String name, String lastName, String DNI) {
-        if (username != null && username.length() < 6 && !username.matches("[a-zA-Z0-9]"))
-            throw new InvalidImputDataException("Incorrect user entered.\n#length minimun 6 \n#alphanumeric\n#no special characters");
-        if (password != null && password.length() < 6 && password.length() > 18 && !password.matches("[0]"))
-            throw  new InvalidImputDataException("Incorrect password entered.\n#length minimun 6 and maximun 18\n#alphanumeric ");
-        if (email != null && email.matches(""))
-            throw new InvalidImputDataException("");
-        if(name != null && name.matches(""))
-            throw new InvalidImputDataException("");
-        if(lastName!= null && lastName.matches(""))
-            throw new InvalidImputDataException("");
-        if(DNI!= null &&!DNI.matches("\\d{9}"))
-            throw new InvalidImputDataException("Incorrect DNI entered.\n#9 digits ");
+        if (username != null && username.length() < 6 && !username.matches("^[a-zA-Z0-9._-]{4,20}$"))
+            throw new InvalidImputDataException("Incorrect user entered.\n#length minimun 4\nlength maximun 20 \n#alphanumeric\n#?special characters-_.");
+        if (password != null  && !password.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{6,20}$"))
+            throw  new InvalidImputDataException("Incorrect password entered.\n#length minimun 6 and maximun 18\n#alphanumeric\n#?special characters ");
+        if (email != null && !email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"))
+            throw new InvalidImputDataException("Incorrect email entered. \n");
+        if(name != null && !name.matches("^[A-ZÁÉÍÓÚÑa-záéíóúñ]{2,}(?:\\s[A-ZÁÉÍÓÚÑa-záéíóúñ]{2,})*$"))
+            throw new InvalidImputDataException("Incorrect name entered. ");
+        if(lastName!= null && !lastName.matches("^[A-ZÁÉÍÓÚÑa-záéíóúñ]{2,}(?:\\s[A-ZÁÉÍÓÚÑa-záéíóúñ]{2,})*$"))
+            throw new InvalidImputDataException("Incorrect lastname entered.");
+        if(DNI!= null && !DNI.matches("^\\d{7,8}$"))
+            throw new InvalidImputDataException("Incorrect DNI entered.\n#7-8 digits ");
 
         return new User(username,password,email,role,name,lastName,DNI);
     }
