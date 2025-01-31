@@ -45,22 +45,17 @@ public class SupplierDAO {
      */
     public String[] getColumnNames()
     throws SQLException {
+        String query = "SELECT * FROM suppliers LIMIT 1";
 
-        try(Connection conn = DataBaseConnection.getConnection())
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement prsm = conn.prepareStatement(query);
+            ResultSet rs = prsm.executeQuery())
         {
-            String query = "SELECT * FROM suppliers LIMIT 1";
-            try(PreparedStatement prsm = conn.prepareStatement(query))
-            {
-                try(ResultSet rs = prsm.executeQuery())
-                {
-                    String[] columnNames = new String[rs.getMetaData().getColumnCount()];
-                    for(int i = 0; i < rs.getMetaData().getColumnCount(); i++)
-                    {
-                        columnNames[i] = rs.getMetaData().getColumnName(i+1);
-                    }
-                    return columnNames;
-                }
+            String[] columnNames = new String[rs.getMetaData().getColumnCount()];
+            for(int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                columnNames[i] = rs.getMetaData().getColumnName(i+1);
             }
+            return columnNames;
         }
     }
 

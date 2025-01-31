@@ -21,6 +21,7 @@ public class MainController {
     private Parent products;
     private Parent users;
     private Parent suppliers;
+    private Parent purchase;
 
     private User userLogued;
 
@@ -59,6 +60,15 @@ public class MainController {
         borderPane.setCenter(suppliers);
     }
 
+    public void showPurchase()
+    throws IOException {
+        if (purchase == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/PurchasePanel.fxml"));
+            purchase = loader.load();
+        }
+        borderPane.setCenter(purchase);
+    }
+
     public void closeMainWindows() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/Login.fxml"));
@@ -71,6 +81,11 @@ public class MainController {
 
             Stage loginStage = (Stage) borderPane.getScene().getWindow();
             loginStage.close();
+
+            products = null;
+            purchase = null;
+            users = null;
+            suppliers = null;
         }
         catch (IOException e) {
             throw new RuntimeException(e);

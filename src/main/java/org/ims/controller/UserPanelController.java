@@ -226,7 +226,7 @@ public class UserPanelController {
             if (user != null) {
                 try {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Deleting user");
+                    alert.setTitle("Updating user");
                     alert.setHeaderText("Are you sure that you want to update this user?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {

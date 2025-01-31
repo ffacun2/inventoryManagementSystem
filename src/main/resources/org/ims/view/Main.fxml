@@ -55,7 +55,7 @@
                   </font>
                </Label>
             </GridPane>
-            <Button onAction="#closeMainWindows" mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" text="Cerrar Sesion">
+            <Button mnemonicParsing="false" onAction="#closeMainWindows" prefHeight="38.0" prefWidth="169.0" text="Cerrar Sesion">
                <font>
                   <Font size="17.0" />
                </font>
@@ -95,9 +95,7 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/homepage-icon.png" />
-                        </image>
+                        <Image url="@../img/homepage-icon.png"/>
                      </ImageView>
                   </graphic>
                   <padding>
@@ -110,9 +108,7 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/search-product-icon.png" />
-                        </image>
+                        <Image url="@../img/search-product-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>
@@ -122,9 +118,7 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/shopping-icon.png" />
-                        </image>
+                        <Image url="@../img/shopping-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>
@@ -134,33 +128,37 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/pad-icon.png" />
-                        </image>
+                        <Image url="@../img/product-delivery-tracking-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>
-               <Button onAction="#showSuppliers" mnemonicParsing="false" prefHeight="50.0" prefWidth="145.0" text="Proveedores" GridPane.rowIndex="4">
+               <Button mnemonicParsing="false" onAction="#showSuppliers" prefHeight="50.0" prefWidth="145.0" text="Proveedores" GridPane.rowIndex="4">
                   <font>
                      <Font size="15.0" />
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/package-delivery-icon.png" />
-                        </image>
+                        <Image url="@../img/package-delivery-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>
-               <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="5">
+               <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="145.0" text="Pedidos" onAction="#showPurchase" GridPane.rowIndex="5">
                   <font>
                      <Font size="15.0" />
                   </font>
+                  <graphic>
+                     <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/pad-icon.png"/>
+                     </ImageView>
+                  </graphic>
                </Button>
-               <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="6">
+               <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="145.0" text="Comprar" GridPane.rowIndex="6">
                   <font>
                      <Font size="15.0" />
                   </font>
+                  <graphic>
+                     <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  </graphic>
                </Button>
                <Button mnemonicParsing="false" onAction="#showUsers" prefHeight="50.0" prefWidth="145.0" text="Usuarios" GridPane.rowIndex="7">
                   <font>
@@ -168,9 +166,7 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/find-job-icon.png" />
-                        </image>
+                        <Image url="@../img/find-job-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>
@@ -180,9 +176,7 @@
                   </font>
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../img/setting-line-icon.png" />
-                        </image>
+                        <Image url="@../img/setting-line-icon.png"/>
                      </ImageView>
                   </graphic>
                </Button>

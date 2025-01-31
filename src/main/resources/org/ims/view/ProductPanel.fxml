@@ -200,7 +200,7 @@
                         <GridPane.margin>
                             <Insets bottom="5.0" left="10.0" top="5.0" />
                         </GridPane.margin>
-                        <Button mnemonicParsing="false" text="Agregar" HBox.hgrow="ALWAYS">
+                        <Button onAction="#createProduct" mnemonicParsing="false" text="Agregar" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets right="10.0" />
                             </HBox.margin>
@@ -208,14 +208,14 @@
                      <Insets bottom="5.0" left="12.0" right="12.0" top="5.0" />
                   </padding>
                         </Button>
-                        <Button mnemonicParsing="false" text="Actualizar" HBox.hgrow="ALWAYS">
+                        <Button onAction="#updateProduct" mnemonicParsing="false" text="Actualizar" HBox.hgrow="ALWAYS">
                   <padding>
                      <Insets bottom="5.0" left="12.0" right="12.0" top="5.0" />
                   </padding>
                   <HBox.margin>
                      <Insets right="10.0" />
                   </HBox.margin></Button>
-                        <Button onAction="" mnemonicParsing="false" text="Eliminar" HBox.hgrow="ALWAYS">
+                        <Button onAction="#deleteProduct" mnemonicParsing="false" text="Eliminar" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets right="10.0" />
                             </HBox.margin>
@@ -224,7 +224,7 @@
                   </padding>
                         </Button>
                     </HBox>
-                    <Button mnemonicParsing="false" text="Limpiar" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                    <Button onAction="#clearFields" mnemonicParsing="false" text="Limpiar" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                         <GridPane.margin>
                             <Insets bottom="5.0" />
                         </GridPane.margin>

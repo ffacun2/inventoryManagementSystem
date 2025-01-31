@@ -18,7 +18,8 @@ public class ProductDAO{
      * by id. Each product will have a unique id, and name, price, stock, description and category.
      * @return hashmap of all products
      */
-    public HashMap<Long,Product> getProduct(){
+    public HashMap<Long,Product> getProduct()
+    throws SQLException {
         HashMap<Long, Product> products = null;
         Product product = null;
 
@@ -37,13 +38,7 @@ public class ProductDAO{
                         products.put(rs.getLong(1),product);
                     }
                 }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
             }
-        }
-        catch (SQLException e)
-        {
-         e.printStackTrace(System.out);
         }
         return products;
     }
@@ -53,7 +48,8 @@ public class ProductDAO{
      * This method searches a product where some attribute matches the given word
      * @return sets of products with the given word
      */
-    public HashMap<Long,Product> searchProducts(String attribute) {
+    public HashMap<Long,Product> searchProducts(String attribute)
+    throws  SQLException{
         HashMap<Long,Product> products = null;
         try( Connection conn = DataBaseConnection.getConnection())
         {
@@ -81,14 +77,6 @@ public class ProductDAO{
                     }
                 }
             }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace(System.out);
         }
         return products;
     }
@@ -97,7 +85,8 @@ public class ProductDAO{
      * This method creates a new Product and add it to the list of productos in the database.
      * @Return Boolean value indicating whether the product is already in the list of products in the database.
      */
-    public boolean createProduct(Product product) {
+    public boolean createProduct(Product product)
+    throws SQLException {
         boolean created = false;
         try(Connection conn = DataBaseConnection.getConnection())
         {
@@ -112,14 +101,6 @@ public class ProductDAO{
                 pstm.executeUpdate();
                 created = true;
             }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace(System.out);
         }
         return created;
     }
@@ -128,7 +109,8 @@ public class ProductDAO{
      * This method updates an existing Product in the database.
      * @Return Boolean value indicating whether the product is already in the list of products in the database.
      */
-    public boolean updateProduct(Product product) {
+    public boolean updateProduct(Product product)
+    throws SQLException  {
         boolean updated = false;
         try(Connection conn = DataBaseConnection.getConnection())
         {
@@ -144,14 +126,6 @@ public class ProductDAO{
                 pstm.executeUpdate();
                 updated = true;
             }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace(System.out);
         }
         return updated;
     }
@@ -160,7 +134,8 @@ public class ProductDAO{
      * This method deletes a Product from the database.
      * @Return Boolean value indicating whether the product is already in the list of products in the database.
      */
-    public boolean deleteProduct(long id) {
+    public boolean deleteProduct(long id)
+    throws SQLException  {
         boolean deleted = false;
         try(Connection conn = DataBaseConnection.getConnection())
         {
@@ -171,18 +146,52 @@ public class ProductDAO{
                 pstm.executeUpdate();
                 deleted = true;
             }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace(System.out);
         }
         return deleted;
     }
 
+    /**
+     * This method is called when an order arrives and the stock of a product is updated.
+     */
+    public void updateInventory(Long id, int quantityChange)
+    throws SQLException {
+        try(Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "UPDATE products SET stock=stock+? WHERE id=?";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setInt(1, quantityChange);
+                pstm.setLong(2, id);
+                pstm.executeUpdate();
+            }
+        }
+    }
 
+    /**
+     * This method is called when you want to search a product by id
+     */
+    public Product getProductById(long id)
+    throws SQLException {
+        Product product = null;
+        try(Connection conn = DataBaseConnection.getConnection())
+        {
+            String query = "SELECT * FROM products WHERE id=?";
+            try (PreparedStatement pstm = conn.prepareStatement(query))
+            {
+                pstm.setLong(1, id);
+                try(ResultSet rs = pstm.executeQuery()){
+                    if(rs.next()){
+                        product = new Product();
+                        product.setId(rs.getLong(1));
+                        product.setName(rs.getString(2));
+                        product.setQuantity(rs.getInt(3));
+                        product.setDescription(rs.getString(4));
+                        product.setCategory(rs.getString(5));
+                    }
+                }
+            }
+        }
+        return product;
+    }
 
 }
