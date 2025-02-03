@@ -14,7 +14,7 @@ public class PurchaseDAO {
    public boolean createPurchase(Purchase purchase)
    throws SQLException {
        String sqlPurchase = "INSERT INTO purchases (user_id, supplier_id, date, state, total) VALUES (?,?,?,?,?)";
-       String sqlPurchaseInfo = "INSERT INTO purchaseInfo (purchase_id, product_id, price, quantity) VALUES (?,?,?,?)";
+       String sqlPurchaseInfo = "INSERT INTO purchaseInfo (purchase_id, product_id, price, stock) VALUES (?,?,?,?)";
 
        try (Connection conn = DataBaseConnection.getConnection()) {
            try (PreparedStatement stmtPurchase = conn.prepareStatement(sqlPurchase);
@@ -105,10 +105,65 @@ public class PurchaseDAO {
    }
 
     /**
+     * Obtains the purchase related with the given id
+     */
+    public Purchase getPurchaseById(Long purchaseId)
+    throws SQLException {
+        Purchase purchase = null;
+        String query = """
+                    SELECT
+                        c.id,
+                        c.user_id,
+                        u.name AS username,
+                        u.lastname AS userlastname,
+                        c.supplier_id,
+                        s.name AS suppliername,
+                        s.lastname AS supplierlastname,
+                        c.date,
+                        c.totalcost,
+                        c.state
+                    FROM purchases c
+                    JOIN users u ON c.user_id = u.id
+                    JOIN suppliers s ON c.supplier_id = s.id
+                    WHERE c.id =?
+                """;
+
+       try (Connection conn = DataBaseConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(query)) {
+           pstmt.setLong(1,purchaseId);
+           ResultSet rs = pstmt.executeQuery();
+           if (rs.next()) {
+               User user = new User();
+               user.setId(rs.getLong("user_id"));
+               user.setName(rs.getString("username"));
+               user.setLastname(rs.getString("userlastname"));
+
+               Supplier supplier = new Supplier();
+               supplier.setId(rs.getLong("supplier_id"));
+               supplier.setName(rs.getString("suppliername"));
+               supplier.setLastname(rs.getString("supplierlastname"));
+
+               purchase = new Purchase(
+                       rs.getLong("id"),
+                       user,
+                       supplier,
+                       rs.getDate("date").toLocalDate(),
+                       new ArrayList<>(),
+                       rs.getDouble("totalcost"),
+                       StatePurchase.valueOf(rs.getString("state"))
+               );
+           }
+       }
+       return purchase;
+    }
+
+
+
+    /**
      * Queries the database for all info purchase with the given purchase id. This returns the purchase
-     * information with the product chosen by the user, quantity and price.
+     * information with the product chosen by the user, stock and price.
      * @param purchaseId
-     * @return the purchase information with the product chosen by the user, quantity and price
+     * @return the purchase information with the product chosen by the user, stock and price
      * @throws SQLException
      */
    public List<PurchaseInfo> getPurchaseInfoByPurchaseId(Long purchaseId)
@@ -152,7 +207,17 @@ public class PurchaseDAO {
    }
 
 
+    public void updatePurchase (long purchaseId,StatePurchase state)
+    throws SQLException {
+        String sql = "UPDATE purchases SET state =? WHERE id =?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.setString(1, state.toString());
+            pstmt.setLong(2, purchaseId);
+            pstmt.executeUpdate();
+        }
+    }
 
 
 }

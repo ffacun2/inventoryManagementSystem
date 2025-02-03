@@ -11,6 +11,7 @@ import org.ims.model.User;
 import org.ims.repository.UserDAO;
 import org.ims.services.UserService;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -41,16 +42,17 @@ public class LoginController {
                 openMainWindows(user);
             }
             else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Invalid username or password");
-                alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Error");
+//                alert.setContentText("Invalid username or password");
+//                alert.showAndWait();
+                JOptionPane pane = new JOptionPane("Invalid username or password");
+                JOptionPane.showMessageDialog(null, pane.getMessage(), "Warning", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-        catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.showAndWait();
+        catch (SQLException | NullPointerException e) {
+            JOptionPane pane = new JOptionPane(e.getMessage());
+            JOptionPane.showMessageDialog(null, pane.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

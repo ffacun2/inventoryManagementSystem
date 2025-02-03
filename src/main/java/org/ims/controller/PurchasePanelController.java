@@ -4,15 +4,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.ims.exception.PurchaseNotFoundException;
 import org.ims.model.Purchase;
 import org.ims.model.PurchaseInfo;
+import org.ims.repository.ProductDAO;
 import org.ims.repository.PurchaseDAO;
 import org.ims.services.PurchaseService;
+import org.ims.utils.StatePurchase;
 
+import javax.swing.*;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class PurchasePanelController {
 
@@ -24,7 +30,7 @@ public class PurchasePanelController {
     private final PurchaseService purchaseService;
 
     public PurchasePanelController() {
-        this.purchaseService = new PurchaseService(new PurchaseDAO());
+        this.purchaseService = new PurchaseService(new PurchaseDAO(),new ProductDAO());
     }
 
     @FXML
@@ -91,7 +97,7 @@ public class PurchasePanelController {
                     ));
         }
         catch (SQLException e) {
-            showAlert(e.getMessage(), Alert.AlertType.ERROR);
+            showAlert(e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -108,7 +114,7 @@ public class PurchasePanelController {
             );
         }
         catch (SQLException e) {
-            showAlert(e.getMessage(), Alert.AlertType.ERROR);
+            showAlert(e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -135,11 +141,60 @@ public class PurchasePanelController {
     }
 
 
-    protected void showAlert(String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle("Information");
-        alert.setHeaderText(message);
-        alert.showAndWait();
+    /**
+     * By pressing the received button, the list of products for the pending purchase will be added to
+     * the stock product and the purchase will be indicated as received
+     */
+    @FXML
+    protected void handleClickReceived () {
+        try {
+            int rta = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure that you want to mark this purchase as received?",
+                    "Marking purchase as received",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+            if (rta == JOptionPane.YES_OPTION) {  // if user click OK
+                 purchaseService.purchaseReceived(purchaseTable.getSelectionModel().getSelectedItem().getId());
+                 refreshTable();
+                showAlert("Purchase marked as received", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        catch (IllegalStateException | PurchaseNotFoundException e) {
+            showAlert(e.getMessage(),JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (SQLException e) {
+            showAlert(e.getMessage(), JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * By pressing the rejected button, the pending purchase will be marked as rejected
+     */
+    @FXML
+    protected void handleClickRejected () {
+        try {
+            int rta = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure that you want to mark this purchase as rejected?",
+                    "Marking purchase as rejected",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+            if (rta == JOptionPane.YES_OPTION) {// if user click OK
+                purchaseService.updatePurchaseState(purchaseTable.getSelectionModel().getSelectedItem().getId(), StatePurchase.REJECTED);
+                refreshTable();
+                showAlert("Purchase marked as rejected", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException e) {
+            showAlert(e.getMessage(), JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    protected void showAlert(String message,int typeError ) {
+        JOptionPane.showMessageDialog(null, message, "Information",typeError);
     }
 
 

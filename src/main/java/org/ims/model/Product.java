@@ -7,17 +7,17 @@ public class Product {
     private double price;
     private double cost;
     private String description;
-    private int quantity;
+    private int stock;
     private String category;
 
     public Product(){}
 
-    public Product(String name, double price, double cost, String description, int quantity, String category){
+    public Product(String name, double price, double cost, String description, int stock, String category){
         this.name = name;
         this.price = price;
         this.cost = cost;
         this.description = description;
-        this.quantity = quantity;
+        this.stock = stock;
         this.category = category;
     }
 
@@ -57,14 +57,14 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public void addStock(int quantity) {
-        this.quantity += quantity;
+        this.stock += quantity;
     }
 }

@@ -3,12 +3,9 @@ package org.ims.repository;
 import org.ims.db.DataBaseConnection;
 import org.ims.model.Product;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAO{
 
@@ -18,24 +15,25 @@ public class ProductDAO{
      * by id. Each product will have a unique id, and name, price, stock, description and category.
      * @return hashmap of all products
      */
-    public HashMap<Long,Product> getProduct()
+    public List<Product> getAllProduct()
     throws SQLException {
-        HashMap<Long, Product> products = null;
-        Product product = null;
+        List<Product> products;
+        Product product;
 
         try (Connection conn = DataBaseConnection.getConnection()){
-            String query = "SELECT (id,name,price,stock,description,category) FROM products";
+            String query = "SELECT * FROM products";
             try (PreparedStatement pstm = conn.prepareStatement(query)){
                 try(ResultSet rs = pstm.executeQuery()){
-                     products = new HashMap<>();
+                     products = new ArrayList<>();
                     while(rs.next()){
                         product = new Product();
-                        product.setId(rs.getLong(1));
-                        product.setName(rs.getString(2));
-                        product.setQuantity(rs.getInt(3));
-                        product.setDescription(rs.getString(4));
-                        product.setCategory(rs.getString(5));
-                        products.put(rs.getLong(1),product);
+                        product.setId(rs.getLong("id"));
+                        product.setName(rs.getString("name"));
+                        product.setStock(rs.getInt("stock"));
+                        product.setPrice(rs.getDouble("price"));
+                        product.setDescription(rs.getString("description"));
+                        product.setCategory(rs.getString("category"));
+                        products.add(product);
                     }
                 }
             }
@@ -48,36 +46,33 @@ public class ProductDAO{
      * This method searches a product where some attribute matches the given word
      * @return sets of products with the given word
      */
-    public HashMap<Long,Product> searchProducts(String attribute)
+    public List<Product> searchProducts(String attribute)
     throws  SQLException{
-        HashMap<Long,Product> products = null;
-        try( Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "SELECT * FROM products WHERE"+
-                    "CAST(id as String) LIKE ? OR "+
-                    "name LIKE ? OR + "+
-                    "description LIKE ? OR"+
-                    "category LIKE ?";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
-            {
+        ArrayList<Product> products;
+        String query = "SELECT * FROM products WHERE"+
+                "CAST(id as String) LIKE ? OR "+
+                "name LIKE ? OR + "+
+                "description LIKE ? OR"+
+                "category LIKE ?";
+        try( Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(query)) {
                 pstm.setString(1, "%"+attribute+"%");
                 pstm.setString(2, "%"+attribute+"%");
                 pstm.setString(3, "%"+attribute+"%");
                 pstm.setString(4, "%"+attribute+"%");
                 try(ResultSet rs = pstm.executeQuery()){
-                    products = new HashMap<>();
+                    products = new ArrayList<>();
                     while(rs.next()){
                         Product product = new Product();
                         product.setId(rs.getLong(1));
                         product.setName(rs.getString(2));
-                        product.setQuantity(rs.getInt(3));
+                        product.setStock(rs.getInt(3));
                         product.setDescription(rs.getString(4));
                         product.setCategory(rs.getString(5));
-                        products.put(rs.getLong(1),product);
+                        products.add(product);
                     }
                 }
             }
-        }
         return products;
     }
 
@@ -87,22 +82,17 @@ public class ProductDAO{
      */
     public boolean createProduct(Product product)
     throws SQLException {
-        boolean created = false;
-        try(Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "INSERT INTO products (name, price, stock, description, category) VALUES (?,?,?,?,?)";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
-            {
+        String query = "INSERT INTO products (name, price, stock, description, category) VALUES (?,?,?,?,?)";
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(query)) {
                 pstm.setString(1, product.getName());
                 pstm.setDouble(2, product.getPrice());
-                pstm.setInt(3, product.getQuantity());
+                pstm.setInt(3, product.getStock());
                 pstm.setString(4, product.getDescription());
                 pstm.setString(5, product.getCategory());
                 pstm.executeUpdate();
-                created = true;
+                return true;
             }
-        }
-        return created;
     }
 
     /**
@@ -111,23 +101,18 @@ public class ProductDAO{
      */
     public boolean updateProduct(Product product)
     throws SQLException  {
-        boolean updated = false;
-        try(Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "UPDATE products SET name=?, price=?, stock=?, description=?, category=? WHERE id=?";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
-            {
+        String query = "UPDATE products SET name=?, price=?, stock=?, description=?, category=? WHERE id=?";
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(query)) {
                 pstm.setString(1, product.getName());
                 pstm.setDouble(2, product.getPrice());
-                pstm.setInt(3, product.getQuantity());
+                pstm.setInt(3, product.getStock());
                 pstm.setString(4, product.getDescription());
                 pstm.setString(5, product.getCategory());
                 pstm.setLong(6, product.getId());
                 pstm.executeUpdate();
-                updated = true;
+                return true;
             }
-        }
-        return updated;
     }
 
     /**
@@ -136,36 +121,17 @@ public class ProductDAO{
      */
     public boolean deleteProduct(long id)
     throws SQLException  {
-        boolean deleted = false;
-        try(Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "DELETE FROM products WHERE id=?";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
+        boolean deleted;
+        String query = "DELETE FROM products WHERE id=?";
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(query))
             {
                 pstm.setLong(1, id);
                 pstm.executeUpdate();
-                deleted = true;
+                return true;
             }
-        }
-        return deleted;
     }
 
-    /**
-     * This method is called when an order arrives and the stock of a product is updated.
-     */
-    public void updateInventory(Long id, int quantityChange)
-    throws SQLException {
-        try(Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "UPDATE products SET stock=stock+? WHERE id=?";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
-            {
-                pstm.setInt(1, quantityChange);
-                pstm.setLong(2, id);
-                pstm.executeUpdate();
-            }
-        }
-    }
 
     /**
      * This method is called when you want to search a product by id
@@ -173,25 +139,63 @@ public class ProductDAO{
     public Product getProductById(long id)
     throws SQLException {
         Product product = null;
-        try(Connection conn = DataBaseConnection.getConnection())
-        {
-            String query = "SELECT * FROM products WHERE id=?";
-            try (PreparedStatement pstm = conn.prepareStatement(query))
-            {
+        String query = "SELECT * FROM products WHERE id=?";
+        
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(query)) {
                 pstm.setLong(1, id);
                 try(ResultSet rs = pstm.executeQuery()){
                     if(rs.next()){
                         product = new Product();
                         product.setId(rs.getLong(1));
                         product.setName(rs.getString(2));
-                        product.setQuantity(rs.getInt(3));
+                        product.setStock(rs.getInt(3));
                         product.setDescription(rs.getString(4));
                         product.setCategory(rs.getString(5));
                     }
                 }
             }
-        }
         return product;
+    }
+
+    /**
+     * update the stock product when the purchase is received
+     * @param id the id of product to update
+     * @param quantity the quantity of the product to update
+     * @throws SQLException if an SQLException occurs during the update process
+     */
+    public void updateStock(Long id, int quantity)
+    throws SQLException {
+        try(Connection conn = DataBaseConnection.getConnection()) {
+            String query = "UPDATE products SET stock=stock+? WHERE id=?";
+            try (PreparedStatement pstm = conn.prepareStatement(query)) {
+                pstm.setInt(1, quantity);
+                pstm.setLong(2, id);
+                pstm.executeUpdate();
+            }
+        }
+    }
+
+
+    /**
+     * Returns the names of the columnes of the products in the database
+     * @return array list of column names
+     * @throws SQLException occurs when no columns are available in the database
+     */
+    public String[] getColumnNames()
+    throws SQLException {
+        String query = "SELECT * FROM products LIMIT 1";
+
+        try(Connection conn = DataBaseConnection.getConnection();
+            PreparedStatement prsm = conn.prepareStatement(query);
+            ResultSet rs = prsm.executeQuery())
+        {
+            String[] columnNames = new String[rs.getMetaData().getColumnCount()];
+            for(int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                columnNames[i] = rs.getMetaData().getColumnName(i+1);
+            }
+            return columnNames;
+        }
     }
 
 }

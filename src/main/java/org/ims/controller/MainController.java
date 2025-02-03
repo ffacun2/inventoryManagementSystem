@@ -22,6 +22,7 @@ public class MainController {
     private Parent users;
     private Parent suppliers;
     private Parent purchase;
+    private Parent inventory;
 
     private User userLogued;
 
@@ -36,7 +37,7 @@ public class MainController {
     public void showProduct ()
     throws IOException {
         if ( products == null ) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/ProductPanel.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/Product3434Panel.fxml"));
             products = loader.load();
         }
         borderPane.setCenter(products);
@@ -69,6 +70,15 @@ public class MainController {
         borderPane.setCenter(purchase);
     }
 
+    public void showInventory()
+    throws IOException {
+        if (inventory == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/InventoryPanel.fxml"));
+            inventory = loader.load();
+        }
+        borderPane.setCenter(inventory);
+    }
+
     public void closeMainWindows() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/Login.fxml"));
@@ -86,6 +96,7 @@ public class MainController {
             purchase = null;
             users = null;
             suppliers = null;
+            inventory = null;
         }
         catch (IOException e) {
             throw new RuntimeException(e);
