@@ -14,6 +14,11 @@ public class ProductService {
         this.productDAO = productDAO;
     }
 
+    public Product validateProduct(String name, String price, String category, String description) {
+
+        return new Product(name,Double.parseDouble(price),0,description,0,category);
+    }
+
     public String[] getColumnsName()
     throws SQLException {
         return productDAO.getColumnNames();
@@ -27,5 +32,15 @@ public class ProductService {
     public List<Product> searchProducts(String attribute)
     throws SQLException {
         return productDAO.searchProducts(attribute);
+    }
+
+    public void updateProduct(long productId,Product updatedProduct)
+    throws SQLException {
+        productDAO.updateProduct(productId,updatedProduct);
+    }
+
+    public void deleteProduct(long productId)
+    throws SQLException{
+        productDAO.deleteProduct(productId);
     }
 }

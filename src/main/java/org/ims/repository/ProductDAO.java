@@ -99,17 +99,16 @@ public class ProductDAO{
      * This method updates an existing Product in the database.
      * @Return Boolean value indicating whether the product is already in the list of products in the database.
      */
-    public boolean updateProduct(Product product)
+    public boolean updateProduct(long productId,Product product)
     throws SQLException  {
-        String query = "UPDATE products SET name=?, price=?, stock=?, description=?, category=? WHERE id=?";
+        String query = "UPDATE products SET name=?, price=?, description=?, category=? WHERE id=?";
         try(Connection conn = DataBaseConnection.getConnection();
             PreparedStatement pstm = conn.prepareStatement(query)) {
                 pstm.setString(1, product.getName());
                 pstm.setDouble(2, product.getPrice());
-                pstm.setInt(3, product.getStock());
-                pstm.setString(4, product.getDescription());
-                pstm.setString(5, product.getCategory());
-                pstm.setLong(6, product.getId());
+                pstm.setString(3, product.getDescription());
+                pstm.setString(4, product.getCategory());
+                pstm.setLong(5, productId);
                 pstm.executeUpdate();
                 return true;
             }

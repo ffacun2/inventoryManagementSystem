@@ -38,7 +38,7 @@ public class InventoryPanelController {
     throws SQLException {
         try {
             for(String columnName : productService.getColumnsName()) {
-                TableColumn<Product,String> column = new TableColumn<Product,String>(columnName);
+                TableColumn<Product,String> column = new TableColumn<>(columnName);
                 column.setCellValueFactory(new PropertyValueFactory<>(columnName));
                 productTable.getColumns().add(column);
             }
@@ -85,21 +85,5 @@ public class InventoryPanelController {
         productTable.setItems(filteredData);
     }
 
-
-    @FXML
-    protected void createProduct () {
-    }
-
-    @FXML
-    protected void updateProduct() {
-    }
-
-    @FXML
-    protected void deleteProduct() {
-    }
-
-    @FXML
-    protected void clearFields() {
-    }
 
 }

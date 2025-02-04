@@ -37,7 +37,7 @@ public class MainController {
     public void showProduct ()
     throws IOException {
         if ( products == null ) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/Product3434Panel.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/ims/view/ProductPanel.fxml"));
             products = loader.load();
         }
         borderPane.setCenter(products);
