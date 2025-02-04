@@ -29,7 +29,7 @@ public class MainController {
 
     public void setUserLogued (User userLogued) {
         this.userLogued = userLogued;
-        userLabel.setText(userLogued.getUsername() + " ("+userLogued.getRole()+")");
+        userLabel.setText(userLogued.getName()+" "+userLogued.getLastname() + " ("+userLogued.getRole()+")");
     }
 
 

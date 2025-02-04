@@ -3,6 +3,7 @@ module org.ims {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires java.prefs;
 
 
     opens org.ims to javafx.fxml;

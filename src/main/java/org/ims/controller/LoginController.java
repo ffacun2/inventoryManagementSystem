@@ -1,14 +1,18 @@
 package org.ims.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.ims.model.User;
 import org.ims.repository.UserDAO;
+import org.ims.services.LoginService;
 import org.ims.services.UserService;
 
 import javax.swing.*;
@@ -21,31 +25,44 @@ public class LoginController {
     private TextField textFieldUser;
     @FXML
     private TextField textFieldPassword;
+    @FXML
+    private CheckBox checkBoxRemember;
 
 
     private final UserService userService;
+    private final LoginService loginService;
 
     public LoginController() {
         this.userService = new UserService(new UserDAO());
+        this.loginService = new LoginService(new UserDAO());
+    }
+
+    @FXML
+    protected void initialize() {
+        String userRemembered = loginService.loadCredentials();
+        if (!userRemembered.isEmpty()) {
+            textFieldUser.setText(userRemembered);
+            checkBoxRemember.setSelected(true);
+            Platform.runLater(()->textFieldPassword.requestFocus());
+        }
+        else {
+            Platform.runLater(()->textFieldUser.requestFocus());
+        }
     }
 
 
     @FXML
     private void handleLogicClickLogin(){
-        User user;
         String username = textFieldUser.getText();
         String password = textFieldPassword.getText();
 
         try {
-            user = userService.getUserByUsername(username);
-            if (user != null && user.getPassword().equals(password)) {
-                openMainWindows(user);
+            User userLogin = loginService.authenticateUser(username,password);
+            if (userLogin != null) {
+                loginService.saveCredentials(username,checkBoxRemember.isSelected());
+                openMainWindows(userLogin);
             }
             else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Error");
-//                alert.setContentText("Invalid username or password");
-//                alert.showAndWait();
                 JOptionPane pane = new JOptionPane("Invalid username or password");
                 JOptionPane.showMessageDialog(null, pane.getMessage(), "Warning", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -75,6 +92,14 @@ public class LoginController {
         }
         catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    @FXML
+    protected void handleKeyEnter(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            handleLogicClickLogin();
         }
     }
 }
