@@ -5,27 +5,27 @@ import java.util.List;
 
 public class Sale {
 
-    private int id;
+    private long id;
     private User user;
     private Date date;
-    private double price;
+    private double total;
     private List<SaleInfo> items;
 
     public Sale() {
     }
 
-    public Sale(int id, List<SaleInfo> items, double price, Date date, User user) {
+    public Sale(long id, List<SaleInfo> items, double price, Date date, User user) {
         this.id = id;
         this.items = items;
-        this.price = price;
+        this.total = price;
         this.date = date;
         this.user = user;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class Sale {
         this.user = user;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotal() {
+        return total;
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public List<SaleInfo> getItems() {

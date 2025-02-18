@@ -3,15 +3,11 @@ package org.ims.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.ims.exception.InvalidImputDataException;
 import org.ims.exception.UserNotFoundException;
 import org.ims.model.User;
@@ -20,7 +16,7 @@ import org.ims.services.UserService;
 
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -79,7 +75,7 @@ public class UserPanelController {
             showhidePassword();
         }
         catch (Exception e) {
-            System.err.println("Error loading images: " + e.getMessage());
+            e.printStackTrace();
         }
 
         //load columns names for users table

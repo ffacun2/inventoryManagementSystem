@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SupplierDAO {
 
@@ -63,7 +64,7 @@ public class SupplierDAO {
      * This method queries the database to return all registered suppliers.
      * @return all registered suppliers
      */
-    public ArrayList<Supplier> getAllSuppliers()
+    public List<Supplier> getAllSuppliers()
     throws SQLException  {
         ArrayList<Supplier> suppliers = new ArrayList<>();
 

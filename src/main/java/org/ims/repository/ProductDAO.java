@@ -120,7 +120,6 @@ public class ProductDAO{
      */
     public boolean deleteProduct(long id)
     throws SQLException  {
-        boolean deleted;
         String query = "DELETE FROM products WHERE id=?";
         try(Connection conn = DataBaseConnection.getConnection();
             PreparedStatement pstm = conn.prepareStatement(query))

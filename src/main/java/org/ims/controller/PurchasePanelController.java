@@ -3,8 +3,6 @@ package org.ims.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,7 +16,6 @@ import org.ims.utils.StatePurchase;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class PurchasePanelController {
 

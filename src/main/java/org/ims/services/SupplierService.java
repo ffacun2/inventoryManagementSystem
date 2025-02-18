@@ -6,7 +6,7 @@ import org.ims.model.Supplier;
 import org.ims.repository.SupplierDAO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SupplierService {
 
@@ -59,7 +59,7 @@ public class SupplierService {
      * Calls the method that return a list of all users from the user table for showing
      * in the table view.
      */
-    public ArrayList<Supplier> getAllSupplier()
+    public List<Supplier> getAllSupplier()
     throws SQLException {
         return supplierDAO.getAllSuppliers();
     }

@@ -1,6 +1,7 @@
 module org.ims {
     requires javafx.controls;
     requires javafx.fxml;
+    requires transitive javafx.graphics;
     requires java.sql;
     requires java.desktop;
     requires java.prefs;
@@ -12,6 +13,4 @@ module org.ims {
     exports org.ims.model;
     opens org.ims.controller to javafx.fxml;
     exports org.ims.controller;
-    opens org.ims.img to javafx.fxml;
-
 }

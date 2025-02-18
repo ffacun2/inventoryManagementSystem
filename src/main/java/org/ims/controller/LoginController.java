@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import org.ims.model.User;
 import org.ims.repository.UserDAO;
 import org.ims.services.LoginService;
-import org.ims.services.UserService;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -29,11 +28,9 @@ public class LoginController {
     private CheckBox checkBoxRemember;
 
 
-    private final UserService userService;
     private final LoginService loginService;
 
     public LoginController() {
-        this.userService = new UserService(new UserDAO());
         this.loginService = new LoginService(new UserDAO());
     }
 
@@ -91,7 +88,7 @@ public class LoginController {
             loginStage.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null,"unexpected error");
         }
     }
 

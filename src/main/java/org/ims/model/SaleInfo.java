@@ -2,8 +2,7 @@ package org.ims.model;
 
 public class SaleInfo {
 
-    private int id;
-    private Sale sale;
+    private long id;
     private Product product;
     private int quantity;
     private double unitPrice;
@@ -11,18 +10,17 @@ public class SaleInfo {
     public SaleInfo() {
     }
 
-    public SaleInfo(int id, double unitPrice, int quantity, Product product, Sale sale) {
+    public SaleInfo (int id, double unitPrice, int quantity, Product product) {
         this.id = id;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.product = product;
-        this.sale = sale;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -47,11 +45,5 @@ public class SaleInfo {
         this.product = product;
     }
 
-    public Sale getSale() {
-        return sale;
-    }
-    public void setSale(Sale sale) {
-        this.sale = sale;
-    }
 
 }
